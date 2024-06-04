@@ -1,4 +1,4 @@
-import hero from '@/assets/images/weps/hero.webp'
+import hero from '@/assets/images/weps/auth.webp'
 import logo from '@/assets/images/svgs/logo.svg'
 import { Outlet } from 'react-router-dom';
 

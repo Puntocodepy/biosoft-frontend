@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import PropTypes from 'prop-types';
-
 
 const BtnLoader = ({ text = 'Cargando...' }) => (
   <Button className='w-full text-white mt-6' disabled>
@@ -9,9 +7,5 @@ const BtnLoader = ({ text = 'Cargando...' }) => (
     {text}
   </Button>
 );
-
-BtnLoader.propTypes = {
-  text: PropTypes.number.isRequired
-}
 
 export default BtnLoader
