@@ -1,4 +1,3 @@
-import logo from '@/assets/images/svgs/logo.svg'
 import Sidebar from '@/components/shared/Sidebar';
 import { Outlet } from 'react-router-dom';
 
@@ -9,7 +8,7 @@ export default function AdminLayout() {
 
 
   return (
-    <div className="flex">
+    <div className="flex flex-auto min-w-0">
         <Sidebar />
       
       {/* <div className="grid grid-cols-2 gap-4 min-h-screen content-center">
