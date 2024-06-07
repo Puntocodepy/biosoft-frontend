@@ -9,7 +9,7 @@ export async function login(loginFormData: LoginFormData) {
 
   } catch (error) {
     if(isAxiosError(error)) {
-      throw new Error(error.response?.data.message)
+      throw new Error(error.response?.data.message || 'Error del servidor, por favor intenta mas tarde');
     }
   }
 }
