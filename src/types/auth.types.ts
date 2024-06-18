@@ -11,5 +11,21 @@ export const LoginSchema = z.object({
     }),
   });
 
-  export type Login = z.infer<typeof LoginSchema>;
-  export type LoginFormData = Pick<Login, "email" | "password">;
+export type Login = z.infer<typeof LoginSchema>;
+export type LoginFormData = Pick<Login, "email" | "password">;
+
+
+export type auth = {
+    message:      string;
+    user:         User;
+    access_token: string;
+}
+
+export type User = {
+    id:                number;
+    name:              string;
+    email:             string;
+    email_verified_at: null;
+    created_at:        Date;
+    updated_at:        Date;
+}
