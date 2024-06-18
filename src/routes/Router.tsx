@@ -1,5 +1,6 @@
 import AdminLayout from "@/layouts/AdminLayout"
 import AuthLayout from "@/layouts/AuthLayout"
+import DashLayout from "@/layouts/DashLayout"
 import Dashboard from "@/views/Admin/Dashboard/Dashboard"
 import Login from "@/views/Auth/Login"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
@@ -23,6 +24,9 @@ export default function Router() {
 
         <Route element={<AuthLayout />}>
           <Route path='/login' element={<Login />} />
+        </Route>
+
+        <Route path='/dashboard' element={<DashLayout />}>
         </Route>
 
         {/* redirect to login is / or not found */}

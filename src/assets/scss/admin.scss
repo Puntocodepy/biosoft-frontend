@@ -1,0 +1,16 @@
+.sidebar{
+    width: 290px;
+    min-width: 290px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background-color: blue;
+    padding: 1.25rem;
+    transition: all .2s ease-in-out;
+    overflow: hidden auto;
+}
+
+.sidebar-close{
+    width: 80px;
+    min-width: 80px;
+}

@@ -1,10 +1,11 @@
 import logo from '@/assets/images/svgs/logo.svg'
 import { AreaChart, ArrowBigDown, ChevronDown, CircleArrowLeft } from "lucide-react";
 import { useState } from "react";
+import '@/assets/scss/admin.scss';
 
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const Menus = [
     { title: 'Dashboard', link: '/', icon: <AreaChart /> },
@@ -33,12 +34,15 @@ const Sidebar = () => {
         { title: 'Profile', link: '/settings/profile' },
         { title: 'Change Password', link: '/settings/password' },
         { title: 'Notifications', link: '/settings/notifications' },
+        { title: 'Notifications', link: '/settings/notifications' },
+        { title: 'Notifications', link: '/settings/notifications' },
+        { title: 'Notifications', link: '/settings/notifications' },
       ]
     },
   ];
 
   return (
-    <div className={`bg-blue-900 h-screen duration-300 p-5 pt-8 relative ${open ? "w-64" : "w-20"}`}>
+    <div className={`sidebar ${open ? "" : "sidebar-close"}`}>
       <CircleArrowLeft
         className={`absolute text-white -right-3 top-4 ${!open && "rotate-180"}`}
         onClick={() => setOpen(!open)}

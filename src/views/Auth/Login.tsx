@@ -5,6 +5,9 @@ import { login } from "@/api/auth.api";
 import { LoginFormData, LoginSchema } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { useUserStore } from "@/store/Auth.store";
+import BtnLoader from "@/components/shared/BtnLoader";
 
 // Zod
 import { useForm } from "react-hook-form";
@@ -21,13 +24,11 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
-import { toast } from "react-toastify";
-import BtnLoader from "@/components/shared/BtnLoader";
-
 
 
 const Login = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
+  const { addUser, addToken } = useUserStore();
 
   // Define the form
   const form = useForm({
@@ -48,6 +49,8 @@ const Login = () => {
       setIsSubmitting(true);
     },
     onSuccess: (data) => {
+      addUser(data.user);
+      addToken(data.access_token);
       toast.success("Login successful", data);
     },
     onError: (error) => {
