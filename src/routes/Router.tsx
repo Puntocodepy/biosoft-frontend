@@ -1,5 +1,6 @@
 import AdminLayout from "@/layouts/AdminLayout"
 import AuthLayout from "@/layouts/AuthLayout"
+import VerticalLayout from "@/layouts/DashLayout"
 import DashLayout from "@/layouts/DashLayout"
 import Dashboard from "@/views/Admin/Dashboard/Dashboard"
 import Login from "@/views/Auth/Login"
@@ -10,7 +11,7 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-          <Route path='/admin' element={<AdminLayout />}>
+          <Route path='/admin' element={<VerticalLayout />}>
             <Route path='dashboard' element={<Dashboard />} /> 
             {/* <Route path='/projects/create' element={<CreateProjectView />} />
             <Route path='/projects/:projectId' element={<ProjectDetailsView />} />
@@ -24,9 +25,6 @@ export default function Router() {
 
         <Route element={<AuthLayout />}>
           <Route path='/login' element={<Login />} />
-        </Route>
-
-        <Route path='/dashboard' element={<DashLayout />}>
         </Route>
 
         {/* redirect to login is / or not found */}

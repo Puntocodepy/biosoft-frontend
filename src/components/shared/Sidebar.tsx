@@ -1,91 +1,107 @@
-import logo from '@/assets/images/svgs/logo.svg'
-import { AreaChart, ArrowBigDown, ChevronDown, CircleArrowLeft } from "lucide-react";
+import { ChevronDown, CircleArrowRight } from "lucide-react";
+import { getMenu } from './Menu';
 import { useState } from "react";
-import '@/assets/scss/admin.scss';
+import logo from '@/assets/images/svgs/logo.svg'
+import favicon from '@/assets/images/svgs/favicon.svg'
+import { Tooltip, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import MenuTooltip from './MenuTooltip';
 
 
 const Sidebar = () => {
+  // data--------------------------------------------------------------------------------
   const [open, setOpen] = useState(true);
-  const [submenuOpen, setSubmenuOpen] = useState(false);
-  const Menus = [
-    { title: 'Dashboard', link: '/', icon: <AreaChart /> },
-    { title: 'Projects', link: '/projects', Icon: <ArrowBigDown /> },
-    { title: 'Stock', link: '/stock', separetor: true },
-    {
-      title: 'Settings',
-      link: '/settings',
-      separetor: true,
-      submenu: [
-        { title: 'Profile', link: '/settings/profile' },
-        { title: 'Change Password', link: '/settings/password' },
-        { title: 'Notifications', link: '/settings/notifications' },
-      ]
-    },
-    { title: 'Dashboard', link: '/', icon: <AreaChart /> },
-    { title: 'Dashboard', link: '/', icon: <AreaChart /> },
-    { title: 'Dashboard', link: '/', icon: <AreaChart /> },
-    { title: 'Dashboard', link: '/', icon: <AreaChart /> },
-    { title: 'Dashboard', link: '/', icon: <AreaChart /> },
-    {
-      title: 'Settings',
-      link: '/settings',
-      separetor: true,
-      submenu: [
-        { title: 'Profile', link: '/settings/profile' },
-        { title: 'Change Password', link: '/settings/password' },
-        { title: 'Notifications', link: '/settings/notifications' },
-        { title: 'Notifications', link: '/settings/notifications' },
-        { title: 'Notifications', link: '/settings/notifications' },
-        { title: 'Notifications', link: '/settings/notifications' },
-      ]
-    },
-  ];
+  const [submenuOpen, setSubmenuOpen] = useState<{ [key: number]: boolean }>({});
+  const Menus = getMenu();
 
+  // Methods-----------------------------------------------------------------------------
+  const toggleMenu = () => {
+    const newOpenState = !open;
+    if (!newOpenState)  setSubmenuOpen({});
+
+    setOpen(newOpenState);
+  };
+
+  const toggleSubmenu = (index: number, event: React.MouseEvent) => {
+    if(!open) return;
+
+    setSubmenuOpen(prevState => ({
+      ...prevState,
+      [index]: !prevState[index]
+    }));
+
+    const submenu = event.currentTarget.querySelector('ul');
+    if (submenu) {
+      submenu.classList.toggle('active-class');
+    }
+  };
+
+
+  // Views-------------------------------------------------------------------------------
   return (
-    <div className={`sidebar ${open ? "" : "sidebar-close"}`}>
-      <CircleArrowLeft
-        className={`absolute text-white -right-3 top-4 ${!open && "rotate-180"}`}
-        onClick={() => setOpen(!open)}
+    <>
+      <CircleArrowRight
+        className={`sidebar-toggle ${open && "sidebar-toggle-open"}`}
+        onClick={() => toggleMenu()}
       />
 
-      {/* LOGO------------------------------ */}
-      <div className="flex gap-x-4 items-center justify-center">
-        <img src={logo} className='' alt="logo" width={150} />
-      </div>
-      <div className='border-b border-blue-700 mt-4'></div>
+      <div className={`sidebar ${open ? "sidebar-open" : "sidebar-close"}`}>
+        {/* Header ------------------------------ */}
+        <div className="side-nav-header">
+          <img src={open ? logo : favicon} alt="logo" />
+        </div>
+        
+        <div className="side-nav-content">
+          <div className="menu">
+            <div className="content">
+              <ul className="items">
+                {Menus.map((menu) => (
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
 
-      {/* Menu------------------------------ */}
-      <ul className="pt-6">
-        {Menus.map((menu, i) => (
-          <>
-            <li 
-             className="text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-blue-800 rounded-md" 
-             key={i}>
-              {menu.icon ?? <CircleArrowLeft />}
-              <span className={` ${!open && "hidden"}`}>{menu.title}</span>
-              {menu.submenu && open && (
-                <ChevronDown
-                  className={`absolute right-4 duration-200 size-4 ${!submenuOpen ? 'rotate-180' : ''}`} 
-                  onClick={() => setSubmenuOpen(!submenuOpen)}/>
-              )}
-            </li>
-            
-            {/* submenu----------------------- */}
-            {menu.submenu && submenuOpen && (
-              <ul className={`pl-4 ${!open && "hidden"}`}>
-                {menu.submenu.map((submenu, i) => (
-                  <li key={i} className="text-white text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-blue-800 rounded-md">
-                    <span>{submenu.title}</span>
-                  </li>
+                      {/* Menu------------------------------------ */}
+                      <li 
+                        className="menu-item" 
+                        key={menu.id} 
+                        onClick={ menu.submenu ? (event) => toggleSubmenu(menu.id, event) : () => console.log('menu')} >
+                          <TooltipTrigger data-state="instant-open">{menu.icon}</TooltipTrigger>
+                          <span className={`${!open && "hidden"}`}>{menu.title}</span>
+                          {menu.submenu && open && (
+                            <ChevronDown
+                              className="absolute right-6 duration-200 size-4" 
+                            />
+                          )}
+                      </li>
+                      
+                      {/* submenu----------------------- */}
+                      {menu.submenu && (
+                        <ul className={`submenu ${submenuOpen[menu.id] ? 'submenu-open' : ''}`}>
+                          {menu.submenu.map((submenu, i) => (
+                            <li key={`${menu.id}-${i}`} onClick={() => console.log(submenu.link)}>
+                              <span>{submenu.title}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {/* Tooltip----------------------- */}
+                      { !open && (
+                        <MenuTooltip menu={menu} />
+                        // <TooltipContent className='ml-4' side='right'>
+                        //   {menu.submenu 
+                        //     ? <a>test</a>
+                        //     : <p>{menu.title}</p> }
+                        // </TooltipContent>
+                      )}
+                      
+                    </Tooltip>
+                  </TooltipProvider>
                 ))}
               </ul>
-            )}
-
-            { menu.separetor && <div className='border-b border-blue-700 mt-4'></div> }
-          </>
-        ))}
-      </ul>
-    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
