@@ -39,10 +39,10 @@ const Sidebar = () => {
   // Views-------------------------------------------------------------------------------
   return (
     <>
-      <CircleArrowRight
+      {/* <CircleArrowRight
         className={`sidebar-toggle ${open && "sidebar-toggle-open"}`}
         onClick={() => toggleMenu()}
-      />
+      /> */}
 
       <div className={`sidebar ${open ? "sidebar-open" : "sidebar-close"}`}>
         {/* Header ------------------------------ */}

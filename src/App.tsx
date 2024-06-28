@@ -8,9 +8,7 @@ function App() {
   return (
     <div className="dark">
       <Router />
-      <ToastContainer 
-        theme='dark'
-      />
+      <ToastContainer theme='dark'/>
     </div>
   )
 }

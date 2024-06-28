@@ -1,0 +1,12 @@
+@import './colors';
+
+.navbar{
+    width: 100%;
+    padding: 0 2.5rem;
+
+    .btn-menu{
+        background-color: $background;
+        color: #bbb7b7;
+        padding: .5rem;
+    }
+}

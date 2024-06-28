@@ -1,7 +1,5 @@
-import AdminLayout from "@/layouts/AdminLayout"
 import AuthLayout from "@/layouts/AuthLayout"
-import VerticalLayout from "@/layouts/DashLayout"
-import DashLayout from "@/layouts/DashLayout"
+import VerticalLayout from "@/layouts/VerticalLayout"
 import Dashboard from "@/views/Admin/Dashboard/Dashboard"
 import Login from "@/views/Auth/Login"
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"

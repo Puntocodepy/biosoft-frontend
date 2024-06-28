@@ -4,10 +4,9 @@
 import { login } from "@/api/auth.api";
 import { LoginFormData, LoginSchema } from "@/types/auth.types";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { useUserStore } from "@/store/Auth.store";
-import BtnLoader from "@/components/shared/BtnLoader";
+import ButtonLoader from "@/components/shared/ButtonLoader";
 
 // Zod
 import { useForm } from "react-hook-form";
@@ -15,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 // Shadcn UI
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -27,8 +25,7 @@ import {
 
 
 const Login = () => {
-  const [ isSubmitting, setIsSubmitting ] = useState(false);
-  const { addUser, addToken } = useUserStore();
+  const { addUser } = useUserStore();
 
   // Define the form
   const form = useForm({
@@ -43,29 +40,26 @@ const Login = () => {
    * useMutation hook for login
    * @param data - LoginFormData
    */
-  const { mutate } = useMutation({
+  const query = useMutation({
     mutationFn: login,
-    onMutate: () => {
-      setIsSubmitting(true);
-    },
+    mutationKey: ["login"],
     onSuccess: (data) => {
       addUser(data.user);
-      addToken(data.access_token);
+      localStorage.setItem('token', data.access_token);
+      window.location.href = "/admin/dashboard";
       toast.success("Login successful", data);
     },
     onError: (error) => {
       toast.error(error.message)
-    },
-    onSettled: () => {
-      setIsSubmitting(false);
     }
   })
 
-  const onSubmit = (data: LoginFormData) => mutate(data);
+  const onSubmit = (data: LoginFormData) => query.mutate(data);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
+       
         {/* Field email--------------------------- */}
         <FormField
           control={form.control}
@@ -96,13 +90,11 @@ const Login = () => {
           )}
         />
 
-        {isSubmitting ? (
-          <BtnLoader text="Iniciando..." />
-        ) : (
-          <Button className='w-full text-white mt-6'>
-            Iniciar Sesión
-          </Button>
-        )}
+        <ButtonLoader
+          isPending={query.isPending}
+          submitText="Iniciar Sesion"
+          loadingText="Iniciando..."
+        />
       </form>
     </Form>
   )
