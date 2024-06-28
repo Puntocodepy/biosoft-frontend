@@ -4,13 +4,17 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from '../ui/button';
 import { Menu } from 'lucide-react';
 
-const VerticalNavbar = () => {
+type Props = {
+  setOpen: (value: boolean) => void
+}
+
+const VerticalNavbar = ({setOpen}: Props) => {
   return (
     <nav className="navbar">
       <div className="md:h-16 h-28 flex items-center border-b justify-between flex-wrap md:flex-nowrap">
 
         {/* menu burger */}
-        <Button className='btn-menu'>
+        <Button className='btn-menu' onClick={() => setOpen(!setOpen)}>
           <Menu />
         </Button>
 

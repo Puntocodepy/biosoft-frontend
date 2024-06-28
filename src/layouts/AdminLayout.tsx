@@ -1,11 +1,7 @@
 import Navbar from '@/components/shared/Navbar';
 import { Outlet } from 'react-router-dom';
 
-
-
 export default function AdminLayout() {
-
-
 
   return (
     <div className='container'>
@@ -17,4 +13,3 @@ export default function AdminLayout() {
     </div>
   );
 }
-
